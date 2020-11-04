@@ -13,13 +13,17 @@ router.post("/", async (req, res) => {
     if (userExists) {
       res.status(400).json({ msg: "User already exists." });
     } else {
-      let user = new User({
-        email: email,
-      });
+      if (email === "") {
+        res.status(400).json({ msg: "An error occurred. Please try again." });
+      } else {
+        let user = new User({
+          email: email,
+        });
 
-      await user.save();
+        await user.save();
 
-      res.json({ user });
+        res.json({ user });
+      }
     }
   } catch (error) {
     res.status(400).json({ msg: "An error occurred. Please try again." });
