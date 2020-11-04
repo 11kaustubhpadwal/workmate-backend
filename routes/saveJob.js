@@ -14,7 +14,7 @@ router.patch("/", async (req, res) => {
       if (jobToSave === null || jobToSave === undefined) {
         res.status(400).json({ msg: "An error occurred. Please try again." });
       } else {
-        let jobExists = await User.find({
+        let jobExists = await User.exists({
           savedJobs: {
             $elemMatch: { id: jobToSave.id },
           },

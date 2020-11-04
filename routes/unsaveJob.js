@@ -14,7 +14,7 @@ router.patch("/", async (req, res) => {
       if (jobToUnsave === null || jobToUnsave === undefined) {
         res.status(400).json({ msg: "An error occurred. Please try again." });
       } else {
-        let jobExists = await User.find({
+        let jobExists = await User.exists({
           savedJobs: {
             $elemMatch: { id: jobToUnsave.id },
           },
