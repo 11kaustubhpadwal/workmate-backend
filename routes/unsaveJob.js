@@ -14,13 +14,23 @@ router.patch("/", async (req, res) => {
       if (jobToUnsave === null || jobToUnsave === undefined) {
         res.status(400).json({ msg: "An error occurred. Please try again." });
       } else {
-        user = await User.findOneAndUpdate(
-          { email: email },
-          { $pull: { savedJobs: jobToUnsave } },
-          { new: true }
-        );
+        let jobExists = await User.find({
+          savedJobs: {
+            $elemMatch: { id: jobToUnsave.id },
+          },
+        });
 
-        res.json({ user });
+        if (jobExists) {
+          user = await User.findOneAndUpdate(
+            { email: email },
+            { $pull: { savedJobs: jobToUnsave } },
+            { new: true }
+          );
+
+          res.json({ user, msg: "Job has been unsaved successfully." });
+        } else {
+          res.status(400).json({ msg: "An error occurred. Please try again." });
+        }
       }
     } else {
       res.status(400).json({ msg: "No such user exists." });

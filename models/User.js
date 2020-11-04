@@ -8,7 +8,6 @@ const UserSchema = new mongoose.Schema({
   },
   savedJobs: {
     type: Array,
-    unique: true,
     default: [],
   },
 });
