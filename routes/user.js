@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require("../models/User");
 
-// Register a new user
+// Register a new user or return an existing user
 router.post("/", async (req, res) => {
   const { email } = req.body;
 
@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
     let userExists = await User.findOne({ email: email });
 
     if (userExists) {
-      res.status(400).json({ msg: "User already exists." });
+      res.json({ user: userExists });
     } else {
       if (email === "") {
         res.status(400).json({ msg: "An error occurred. Please try again." });
@@ -24,25 +24,6 @@ router.post("/", async (req, res) => {
 
         res.json({ user });
       }
-    }
-  } catch (error) {
-    res.status(400).json({ msg: "An error occurred. Please try again." });
-  }
-});
-
-// Get all saved jobs of a user
-router.get("/", async (req, res) => {
-  const { email } = req.body;
-
-  try {
-    let userExists = await User.findOne({ email: email });
-
-    if (userExists) {
-      let savedJobs = userExists.savedJobs;
-
-      res.json({ savedJobs });
-    } else {
-      res.status(400).json({ msg: "No such user exists." });
     }
   } catch (error) {
     res.status(400).json({ msg: "An error occurred. Please try again." });
