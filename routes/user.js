@@ -40,7 +40,7 @@ router.get("/", async (req, res) => {
     if (userExists) {
       let savedJobs = userExists.savedJobs;
 
-      res.json(savedJobs);
+      res.json({ savedJobs });
     } else {
       res.status(400).json({ msg: "No such user exists." });
     }
