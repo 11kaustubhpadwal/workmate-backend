@@ -21,7 +21,7 @@ router.patch("/", async (req, res) => {
         });
 
         if (jobExists) {
-          res.status(400).json({ msg: "An error occurred. Please try again." });
+          res.status(400).json({ msg: "You have already saved this job!" });
         } else {
           user = await User.findOneAndUpdate(
             { email: email },
