@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// connect to database
 const connectDatabase = async () => {
   try {
     if (process.env.NODE_ENV === "development") {
